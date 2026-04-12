@@ -1,0 +1,19 @@
+diff --git a/lib/sharp.js b/lib/sharp.js
+index 1081c9314de1b669b0744a931a3b6b570c9f6609..7f72a98a369746b4943efac6a7c239bd00e664c3 100644
+--- a/lib/sharp.js
++++ b/lib/sharp.js
+@@ -17,6 +17,14 @@ const paths = [
+   '@img/sharp-wasm32/sharp.node'
+ ];
+
++// By pandev :p with love <3
++// To make this work when run by a compiled Bun executable.
++if (process.versions.bun && runtimePlatform.includes('win')) {
++  const node_path = require('node:path');
++  const custom_path = node_path.resolve(node_path.dirname(process.execPath), 'native_deps', 'sharp', 'win64', `sharp-win32-x64.node`);
++  paths.push(custom_path);
++}
++
+ /* node:coverage disable */
+
+ let path, sharp;
