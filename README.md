@@ -7,7 +7,7 @@ Gets the color palette of a given image URL and returns the result via stdout.
 
 Run the program in a command line, then enter a message like this: 
 ```
-{"image_url": "http://localhost:6604", "request_id":"123"}
+{"data": "http://localhost:6604", "type":"url", "request_id":"123"}
 ```
 
 To get a response like this:
