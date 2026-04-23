@@ -2,9 +2,10 @@ import package_json from '../package.json';
 import {program} from '@commander-js/extra-typings';
 import {assert} from "typia";
 
-import {imageUrlToBuffer} from "./img-url-to-buffer";
-import {outputImagePalettesToStdout} from "./output-image-palettes-to-stdout";
 import {createNodeLogger} from "./create-node-logger";
+import type {Request} from "./request";
+import {processUrlRequest} from "./process-url-request";
+import {processFilePathRequest} from "./process-file-path-request";
 
 const logger = createNodeLogger();
 
@@ -38,16 +39,17 @@ program
       }
 
       try {
-        const json_msg = assert<{ request_id?: string, image_url: string }>(parsed_line);
-        const img_buffer = await imageUrlToBuffer(json_msg.image_url);
-        if (img_buffer != null) {
-          outputImagePalettesToStdout(img_buffer, json_msg.request_id);
+        const req = assert<Request>(parsed_line);
+        if (req.type === 'url') {
+          await processUrlRequest(req);
+        } else {
+          await processFilePathRequest(req);
         }
       } catch (e: any) {
         logger.error(e);
         process.stdout.write(JSON.stringify({
           status: 'error',
-          message: e.message != null ? e.message : e,
+          message: e.message != null ? e.message : e
         }) + '\r\n');
       }
     }

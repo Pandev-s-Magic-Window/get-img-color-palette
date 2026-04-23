@@ -1,6 +1,6 @@
 {
   "name": "mw-get-img-color-palette",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Gets the color palette of a given image passed via stdin and returns the result via stdout.",
   "author": "pandev",
   "module": "index.ts",
